@@ -1,39 +1,84 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 
 const getAllpoids = (req, res) => {
-    prisma.cantines.findMany()
-    .then((poids) =>{
-        res.json(poids)
+  prisma.cantines
+    .findMany()
+    .then((poids) => {
+      res.json(poids);
     })
     .catch((error) => {
-        res.json(error)
-    })
-}
+      res.json(error);
+    });
+};
 const getpoid = (req, res) => {
-    now = Date.now()
-    date = (now.getDate(), now.getMonth(), now.getYear())
-
-    prisma.cantines.findUnique({
-        where: {
-            date: date
-        }
+  prisma.cantines
+    .findUnique({
+      where: {
+        id: id,
+      },
     })
-    .then((poids) =>{
-        res.json(poids)
+    .then((poids) => {
+      res.json(poids);
     })
     .catch((error) => {
-        res.json(error)
-    })
-}
+      res.json(error);
+    });
+};
+
 const createpoid = (req, res) => {
+  let pesee = req.body;
+  now = Date.now();
+  date = (now.getDate(), now.getMonth(), now.getYear());
 
-}
-const updatepoid = (req, res) => {
+  if (
+    prisma.$exists.cantines({
+      date: date,
+      type: pesee.type,
+    })
+  ) {
+    prisma.cantines
+      .findUnique({
+        where: {
+          date: date,
+          type: pesee.type,
+        },
+      })
+      .then((data) => {
+        if (data.poids < pesee.poids) {
+          updatepoid({
+            id: data.id,
+            ecole: data.ecole,
+            type: data.type,
+            poids: pesee.poids,
+            date: date,
+          });
+        } else {
+          res.json("poids inférieur au précédent");
+        }
+      })
+      .catch((error) => {
+        res.json(error);
+      });
+  } else {
+    prisma.cantines
+      .create({
+        data: {
+          ecole: pesee.ecole,
+          type: pesee.type,
+          poids: pesee.poids,
+          date: date,
+        },
+      })
+      .then((poids) => {
+        res.json(poids);
+      })
+      .catch((error) => {
+        res.json(error);
+      });
+  }
+};
+const updatepoid = (req, res) => {};
+const deletepoid = (req, res) => {};
 
-}
-const deletepoid = (req,res) =>{
-    
-}
-
-export { getAllpoids, getpoid, createpoid, updatepoid, deletepoid}
+export { getAllpoids, getpoid, createpoid, updatepoid, deletepoid };
