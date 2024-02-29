@@ -24,7 +24,12 @@ hx.set_power(hx711.power.pwr_up)
 hx.set_gain(hx711.gain.gain_128) # valeurs possibles 128, 64 ou 32.
 
 Oldvalue = 0
+def Tare():
+    global zero
+    hx711.wait_settle(hx711.rate.rate_80)  # on attend qu'une mesure soit prête
+    zero =  hx.get_value() # on prend la mesure
 
+    return None
 def Request(p):
     
     data = { 'poids' : p, 'ecole': 'ecole1', 'type' : 'dessert', 'password': 'XXX'}     #a modif ecole et type en fonction de la poubelle
