@@ -25,7 +25,7 @@ const getpoid = (req, res) => {
       res.json(error);
     });
 };
-}
+
 
 const updatepoid = (req, res) => {
     let id = Number(req.params.id)
