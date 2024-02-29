@@ -7,6 +7,6 @@ router.get('/', getAllpoids)
 router.get('/:id', getpoid)
 router.post('/', createpoid)
 router.put('/:id', updatepoid)
-
+router.delete('/:id', deletepoid)
 
 export default router
