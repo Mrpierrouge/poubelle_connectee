@@ -18,5 +18,5 @@ model Cantines {
   ecole String
   type String
   poids Int
-  date DateTime @default(now())
+  date DateTime 
 }

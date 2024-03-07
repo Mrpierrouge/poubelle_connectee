@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import dateFormat from "dateformat";
 const prisma = new PrismaClient();
 
 const getAllpoids = (req, res) => {
@@ -26,89 +27,95 @@ const getpoid = (req, res) => {
     });
 };
 
-
 const updatepoid = (req, res) => {
-    let id = Number(req.params.id)
-    let poids = req.body
+  let id = Number(req.params.id);
+  let poids = req.body;
 
-    prisma.cantines.update({
-        where: {id: id},
-        data: {
-            poids: poids.poids
-        }
+  prisma.cantines
+    .update({
+      where: { id: id },
+      data: {
+        poids: poids.poids,
+      },
     })
-    .then((poids) =>{
-        res.json(poids)
+    .then((poids) => {
+      res.json(poids);
     })
     .catch((error) => {
-        res.json(error)
-    })
-}
+      res.json(error);
+    });
+};
 
-const deletepoid = (req,res) =>{
-    let id = Number(req.params.id)
-    prisma.cantines.delete({
-        where: {id: id}
+const deletepoid = (req, res) => {
+  let id = Number(req.params.id);
+  prisma.cantines
+    .delete({
+      where: { id: id },
     })
-    .then((poids) =>{
-        res.json(poids)
+    .then((poids) => {
+      res.json(poids);
     })
     .catch((error) => {
-        res.json(error)
-    })
-}
+      res.json(error);
+    });
+};
 
 const createpoid = (req, res) => {
   let pesee = req.body;
-  now = Date.now();
-  date = (now.getDate(), now.getMonth(), now.getYear());
+  let date = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate() +1
+  );
+  let formatedDate = dateFormat(date, "dd/mm/yyyy");
+  // date = date.toLocaleDateString("fr")
+  console.log(date);
 
-  if (
-    prisma.$exists.cantines({
-      date: date,
-      type: pesee.type,
+  const Var = prisma.cantines
+    .findFirst({
+      where: {
+        date: date,
+        type: pesee.type,
+        ecole: pesee.ecole,
+      },
     })
-  ) {
-    prisma.cantines
-      .findUnique({
-        where: {
-          date: date,
-          type: pesee.type,
-        },
-      })
-      .then((data) => {
-        if (data.poids < pesee.poids) {
-          updatepoid({
-            id: data.id,
-            ecole: data.ecole,
-            type: data.type,
-            poids: pesee.poids,
-            date: date,
-          });
+    .then((data) => {
+      if (data != null) {
+        if (parseInt(data.poids) < parseInt(pesee.poids)) {
+          prisma.cantines.update({
+            where: {
+              id: data.id,
+            },
+            data: {
+              poids: parseInt(pesee.poids),
+            },
+          }).then((data)=> {
+            res.json(data)
+          }).catch((error)=>{
+            res.json(error)
+          })
+          
         } else {
           res.json("poids inférieur au précédent");
         }
-      })
-      .catch((error) => {
-        res.json(error);
-      });
-  } else {
-    prisma.cantines
-      .create({
-        data: {
-          ecole: pesee.ecole,
-          type: pesee.type,
-          poids: pesee.poids,
-          date: date,
-        },
-      })
-      .then((poids) => {
-        res.json(poids);
-      })
-      .catch((error) => {
-        res.json(error);
-      });
-  }
+      } else {
+        prisma.cantines
+          .create({
+            data: {
+              ecole: pesee.ecole,
+              type: pesee.type,
+              poids: parseInt(pesee.poids),
+              date: date,
+            },
+          })
+          .then((pesee) => {
+            res.json(pesee);
+          })
+          .catch((error) => {
+            res.json(error);
+          });
+      }
+    });
 };
 
 export { getAllpoids, getpoid, createpoid, updatepoid, deletepoid };
