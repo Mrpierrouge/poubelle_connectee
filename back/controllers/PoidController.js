@@ -1,6 +1,9 @@
 import { PrismaClient } from "@prisma/client";
 import dateFormat from "dateformat";
+
 const prisma = new PrismaClient();
+
+const password = "XXX";
 
 const getAllpoids = (req, res) => {
   prisma.cantines
@@ -28,6 +31,10 @@ const getpoid = (req, res) => {
 };
 
 const updatepoid = (req, res) => {
+  if (req.body.password != password) {
+    res.json(("accès non autorisé"))
+    return
+  }
   let id = Number(req.params.id);
   let poids = req.body;
 
@@ -48,6 +55,10 @@ const updatepoid = (req, res) => {
 
 const deletepoid = (req, res) => {
   let id = Number(req.params.id);
+  if (req.body.password != password) {
+    res.json(("accès non autorisé"))
+    return
+  }
   prisma.cantines
     .delete({
       where: { id: id },
@@ -62,16 +73,17 @@ const deletepoid = (req, res) => {
 
 const createpoid = (req, res) => {
   let pesee = req.body;
+  if (req.body.password != password) {
+    res.json("accès non autorisé");
+    return 
+  }
   let date = new Date(
     new Date().getFullYear(),
     new Date().getMonth(),
-    new Date().getDate() +1
+    new Date().getDate() + 1
   );
-  let formatedDate = dateFormat(date, "dd/mm/yyyy");
-  // date = date.toLocaleDateString("fr")
-  console.log(date);
 
-  const Var = prisma.cantines
+  prisma.cantines
     .findFirst({
       where: {
         date: date,
@@ -82,19 +94,21 @@ const createpoid = (req, res) => {
     .then((data) => {
       if (data != null) {
         if (parseInt(data.poids) < parseInt(pesee.poids)) {
-          prisma.cantines.update({
-            where: {
-              id: data.id,
-            },
-            data: {
-              poids: parseInt(pesee.poids),
-            },
-          }).then((data)=> {
-            res.json(data)
-          }).catch((error)=>{
-            res.json(error)
-          })
-          
+          prisma.cantines
+            .update({
+              where: {
+                id: data.id,
+              },
+              data: {
+                poids: parseInt(pesee.poids),
+              },
+            })
+            .then((data) => {
+              res.json(data);
+            })
+            .catch((error) => {
+              res.json(error);
+            });
         } else {
           res.json("poids inférieur au précédent");
         }
