@@ -17,7 +17,7 @@ wlan.active(True) # active le mode client wifi
 ssid = ''
 password = ''
 wlan.connect(ssid, password) # connecte la raspi au réseau
-url= 'http://'
+url= 'http://localhost:3000/poids'
 
 hx = hx711(Pin(14), Pin(15))  # clock broche GP14, data broche GP15
 hx.set_power(hx711.power.pwr_up)
