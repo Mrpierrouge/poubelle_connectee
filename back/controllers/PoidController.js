@@ -15,6 +15,7 @@ const getAllpoids = (req, res) => {
       res.json(error);
     });
 };
+
 const getpoid = (req, res) => {
   prisma.cantines
     .findUnique({
