@@ -33,5 +33,21 @@ const getAllpoidsOfecole = (req, res) => {
       res.json(error);
     });
 };
-
-export { getAllecole, getAllpoidsOfecole };
+const getDatedPoidsOfecole = (req, res) => {
+  let ecole = req.body.ecole;
+  let date = req.body.date;
+  prisma.cantines
+    .findMany({
+      where: {
+        ecole: ecole,
+        date: date,
+      },
+    })
+    .then((poids) => {
+      res.json(poids);
+    })
+    .catch((error) => {
+      res.json(error);
+    });
+};
+export { getAllecole, getAllpoidsOfecole, getDatedPoidsOfecole };
