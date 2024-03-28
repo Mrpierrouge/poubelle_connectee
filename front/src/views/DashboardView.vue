@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="container">
 		<header>
 			<nav class="navbar">
 				<img
@@ -88,16 +88,16 @@
 					<h3>VUE GLOBALE</h3>
 					<div class="columns">
 						<div class="column">
-              <h4>Entrée</h4>
-              <p>{{ entry }}G</p>
-            </div>
+							<h4>Entrée</h4>
+							<p>{{ entry }}G</p>
+						</div>
 						<div class="column">
 							<h4>Plat</h4>
-              <p>{{ mainCourse }}G</p>
+							<p>{{ mainCourse }}G</p>
 						</div>
 						<div class="column">
 							<h4>Dessert</h4>
-              <p>{{ dessert }}G</p>
+							<p>{{ dessert }}G</p>
 						</div>
 					</div>
 				</div>
@@ -140,9 +140,10 @@ export default {
 </script>
 
 <style scoped>
-nav {
+.navbar {
+	display: flex;
+	justify-content: center;
 	background-color: #e42353;
-	padding: 10px;
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -151,25 +152,15 @@ nav {
 	box-sizing: border-box;
 }
 
-.navbar {
+.container {
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
+	height: 100vh;
 }
 
 .logo {
 	width: 100px;
 	height: auto;
-}
-
-.layer {
-	background-color: rgba(255, 255, 255, 0.6);
-	position: absolute;
-	top: 0;
-	left: 0;
-	bottom: 0;
-	right: 0;
-	width: 100%;
-	height: 100%;
 }
 
 .title {
@@ -193,6 +184,7 @@ nav {
 
 .selectors {
 	display: flex;
+  flex-direction: column;
 }
 
 .school-selector,
@@ -234,13 +226,13 @@ nav {
 	justify-content: space-between;
 	align-items: center;
 	padding: 20px;
-	width: 100%;
 }
 
 .dashboard {
 	background-color: #fff;
 	border-radius: 15px;
 	padding: 10px 30px 30px 30px;
+	gap: 20px;
 }
 
 .total-month {
@@ -251,12 +243,13 @@ nav {
 
 .dashboard-stats {
 	display: flex;
-  gap: 20px;
+	gap: 20px;
 }
 
 .stat-box {
-  display: flex;
-  justify-content: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	border-radius: 15px;
 	padding: 0px 15px;
 	width: fit-content;
@@ -272,18 +265,18 @@ nav {
 }
 
 .columns {
-  display: flex;
+	display: flex;
 	border-radius: 15px;
 	padding: 0px 15px;
 	width: 80%;
 	background-color: #fff;
-  gap: 20px;
+	gap: 20px;
 	filter: drop-shadow(1px 2px 3px #b2b2b2);
 }
 
 .column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 </style>
