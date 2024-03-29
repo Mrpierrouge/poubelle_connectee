@@ -2,10 +2,10 @@
 	<h2 v-if="pesee">{{ pesee }}</h2>
 	<div class="dashboard">
 		<div class="dashboard-total">
-			<DashboardTotal />
-            <DashboardStats />
+			<DashboardTotal :pesee="this.pesee"></DashboardTotal>
+            <DashboardStats :pesee="this.pesee"></DashboardStats>
             <DashboardEvolution />
-            <DashboardGlobalView />
+            <DashboardGlobalView :pesee="this.pesee"></DashboardGlobalView>
 		</div>
 	</div>
 </template>
