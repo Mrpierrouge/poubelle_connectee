@@ -1,4 +1,5 @@
 <template>
+	<h2 v-if="pesee">{{ pesee }}</h2>
 	<div class="dashboard">
 		<div class="dashboard-total">
 			<DashboardTotal />
@@ -25,6 +26,36 @@ export default {
 		DashboardEvolution,
 		DashboardGlobalView,
 	},
+	data() {
+    return {
+		pesee: [],
+    };
+  },
+	async created() {
+          let ecole = "ecole1";
+          let date = new Date(
+            new Date().getFullYear(),
+            new Date().getMonth(),
+            new Date().getDate() + 1
+          );
+          try {
+            const response = await fetch("http://localhost:3000/ecoles/date/", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                date,
+                ecole,
+              }),
+            });
+            const jsonData = await response.json();
+            this.pesee = jsonData;
+			console.log(this.pesee);
+          } catch (error) {
+            console.error("Une erreur s'est produite : ", error);
+          }
+        },
 };
 
 </script>

@@ -5,6 +5,6 @@ const router = express.Router();
 
 router.get('/:ecole', getAllpoidsOfecole)
 router.get('/', getAllecole)
-router.post('/date/:ecole:date', getDatedPoidsOfecole)
+router.post('/date/', getDatedPoidsOfecole)
 
 export default router
