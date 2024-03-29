@@ -1,0 +1,27 @@
+#app {
+	padding: 40px;
+	font-weight: normal;
+}
+
+body {
+	display: block;
+	font-family: "Nunito", sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #322d29;
+	background-image: linear-gradient(
+			rgba(255, 255, 255, 0.6),
+			rgba(255, 255, 255, 0.6)
+		),
+		url(../assets/mairie-clamart1.png);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+
+@media (min-width: 1024px) {
+	#app {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+}
