@@ -12,8 +12,6 @@
 <script>
 import Navbar from "../components/Navbar.vue";
 import DashboardTotal from "../components/DashboardTotal.vue";
-import DashboardStats from "../components/DashboardStats.vue";
-import DashboardEvolution from "../components/DashboardEvolution.vue";
 import DashboardGlobalView from "../components/DashboardGlobalView.vue";
 
 export default {
@@ -21,8 +19,6 @@ export default {
 	components: {
 		Navbar,
 		DashboardTotal,
-		DashboardStats,
-		DashboardEvolution,
 		DashboardGlobalView,
 	},
 };
