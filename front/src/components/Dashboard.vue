@@ -1,8 +1,8 @@
 <template>
 	<div class="dashboard">
 		<div class="dashboard-total">
-			<DashboardTotal />
-            <DashboardGlobalView />
+			<DashboardTotal :pesee="this.pesee" :today="this.date"></DashboardTotal>
+            <DashboardGlobalView :pesee="this.pesee" :today="this.date"></DashboardGlobalView>
 		</div>
 	</div>
 </template>
@@ -19,6 +19,29 @@ export default {
 		DashboardTotal,
 		DashboardGlobalView,
 	},
+	data() {
+		return {
+			pesee: [],
+			ecole: "ecole1",
+			date: new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        new Date().getDate() +1
+      ),
+		};
+	},
+	async created() {
+          try {
+            const response = await fetch(`http://localhost:3000/ecoles/${this.ecole}`)
+			.then((response) => response.json())
+			.then((data) => {
+				this.pesee = data;
+				console.log(data);
+			})
+          } catch (error) {
+            console.error("Une erreur s'est produite : ", error);
+          }
+        },
 };
 
 </script>
