@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-section total-month">
-    <h3>TOTAL DU MOIS: {{ this.today }}G</h3>
+    <h3>TOTAL DU MOIS: {{ totalMonth }}G</h3>
     <div class="time-selector">
       <div
         class="toggle-button"
@@ -27,7 +27,7 @@
   </div>
   <div class="dashboard-stats">
     <div class="stat-box">
-      <p>S-1 : {{ stat1 }}%</p>
+      <p>S-1 : {{ totalPrecedentWeek }}</p>
       <img
         src="../assets/fleche_bas.png"
         alt="Flèche vers le bas"
@@ -35,7 +35,7 @@
       />
     </div>
     <div class="stat-box">
-      <p>M-1 : {{ stat2 }}%</p>
+      <p>M-1 : {{ totalPrecedentMonth }}</p>
       <img
         src="../assets/fleche_haut.png"
         alt="Flèche vers le haut"
@@ -92,6 +92,15 @@ export default {
     },
     totalMonth() {
       return this.getTotalMonth(this.today);
+    },
+    totalPrecedentMonth() {
+      return this.getTotalMonth(new Date(this.today.getFullYear(), this.today.getMonth() - 1));
+    },
+    totalPrecedentWeek(){
+      return this.getTotalDay(this.getDayOffset(this.today, 15)) + this.getTotalDay(this.getDayOffset(this.today, 14)) +
+                this.getTotalDay(this.getDayOffset(this.today, 13)) + this.getTotalDay(this.getDayOffset(this.today, 12)) + 
+                this.getTotalDay(this.getDayOffset(this.today, 11)) + this.getTotalDay(this.getDayOffset(this.today, 10)) +
+                this.getTotalDay(this.getDayOffset(this.today, 9)) + this.getTotalDay(this.getDayOffset(this.today, 8));
     },
   },
   methods: {

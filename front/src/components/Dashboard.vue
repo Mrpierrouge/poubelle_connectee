@@ -26,7 +26,7 @@ export default {
 			date: new Date(
         new Date().getFullYear(),
         new Date().getMonth(),
-        new Date().getDate()
+        new Date().getDate() 
       ),
 		};
 	},
