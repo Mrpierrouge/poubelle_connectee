@@ -2,8 +2,6 @@
 	<div class="dashboard">
 		<div class="dashboard-total">
 			<DashboardTotal />
-            <DashboardStats />
-            <DashboardEvolution />
             <DashboardGlobalView />
 		</div>
 	</div>

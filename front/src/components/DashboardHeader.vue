@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-header">
-    <button class="view-all-button">Voir toutes les écoles</button>
+    <router-link to="/" class="view-all-button">Voir toutes les écoles</router-link>
     <h1>DASHBOARD</h1>
     <div class="selectors">
       <select v-model="selectedSchool" class="school-selector">
@@ -45,6 +45,7 @@ export default {
 }
 
 .view-all-button {
+  text-decoration: none;
   background-color: #fff;
   color: #322d29;
   border: none;
