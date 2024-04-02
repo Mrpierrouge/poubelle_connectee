@@ -1,16 +1,29 @@
+<template>
+  <div class="container">
+    <Navbar />
+    <DashboardHeader />
+    <Dashboard />
+  </div>
+</template>
+
 <script>
-import Dashboard from '../components/Dashboard.vue'
+import Navbar from '../components/Navbar.vue';
+import DashboardHeader from '../components/DashboardHeader.vue';
+import Dashboard from '../components/Dashboard.vue';
 
 export default {
-  name: 'DashboardView',
   components: {
+    Navbar,
+    DashboardHeader,
     Dashboard
   }
-}
+};
 </script>
 
-<template>
-  <main>
-    <Dashboard />
-  </main>
-</template>
+<style>
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+</style>
