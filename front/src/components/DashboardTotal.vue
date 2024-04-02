@@ -27,20 +27,11 @@
   </div>
   <div class="dashboard-stats">
     <div class="stat-box">
-      <p>S-1 : {{ totalPrecedentWeek }}</p>
-      <img
-        src="../assets/fleche_bas.png"
-        alt="Flèche vers le bas"
-        class="arrow-down"
-      />
+      <p>S-1 : {{ totalPrecedentWeek }} G</p>
     </div>
     <div class="stat-box">
-      <p>M-1 : {{ totalPrecedentMonth }}</p>
-      <img
-        src="../assets/fleche_haut.png"
-        alt="Flèche vers le haut"
-        class="arrow-up"
-      />
+      <p>M-1 : {{ totalPrecedentMonth }} G</p>
+
     </div>
     <div class="stat-box">
       <p>TOTAL DU JOUR : {{ totalDay }} G</p>
