@@ -26,7 +26,7 @@ export default {
 			date: new Date(
         new Date().getFullYear(),
         new Date().getMonth(),
-        new Date().getDate() +1
+        new Date().getDate()
       ),
 		};
 	},
@@ -36,7 +36,6 @@ export default {
 			.then((response) => response.json())
 			.then((data) => {
 				this.pesee = data;
-				console.log(data);
 			})
           } catch (error) {
             console.error("Une erreur s'est produite : ", error);

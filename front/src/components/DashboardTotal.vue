@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-section total-month">
-    <h3>TOTAL DU MOIS: {{ totalMonth }}G</h3>
+    <h3>TOTAL DU MOIS: {{ this.today }}G</h3>
     <div class="time-selector">
       <div
         class="toggle-button"
@@ -57,15 +57,6 @@
 <script>
 import Chart from "chart.js/auto";
 
-Date.prototype.getWeek = function () {
-  let d = new Date(
-    Date.UTC(this.getFullYear(), this.getMonth(), this.getDate())
-  );
-  let dayNum = d.getUTCDay() || 7;
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-  let yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-  return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
-};
 
 export default {
   data() {
@@ -97,24 +88,7 @@ export default {
   },
   computed: {
     totalDay() {
-      let total = 0;
-      const Jour = this.pesee.filter((poids) =>
-        this.isSameDay(poids.date, this.today)
-      );
-      Jour.forEach((poids) => {
-        total += poids.poids;
-      });
-      return total;
-    },
-    totalWeek() {
-      let total = 0;
-      const Week = this.pesee.filter((poids) =>
-        this.isSameWeek(poids.date, this.today)
-      );
-      Week.forEach((poids) => {
-        total += poids.poids;
-      });
-      return total;
+      return this.getTotalDay(this.today);
     },
     totalMonth() {
       return this.getTotalMonth(this.today);
@@ -146,26 +120,17 @@ export default {
       });
       return total;
     },
-    getTotalWeek(weekchecker) {},
     isSameMonth(date1, date2) {
       const parsedDate1 = new Date(date1);
       const parsedDate2 = new Date(date2);
       return parsedDate1.getMonth() === parsedDate2.getMonth();
-    },
-    isSameWeek(date1, date2) {
-      const parsedDate1 = new Date(date1);
-      const parsedDate2 = new Date(date2);
-      return (
-        parsedDate1.getWeek() === parsedDate2.getWeek() &&
-        this.isSameMonth(date1, date2)
-      );
     },
     isSameDay(date1, date2) {
       const parsedDate1 = new Date(date1);
       const parsedDate2 = new Date(date2);
       return (
         parsedDate1.getDate() === parsedDate2.getDate() &&
-        this.isSameWeek(date1, date2)
+        this.isSameMonth(date1, date2)
       );
     },
     loadChart1(option) {
@@ -176,26 +141,26 @@ export default {
         type: "line",
         data: {
           labels: [
-            this.daysOfWeek[(this.today.getDay() - 7 + 6) % 7],
-            this.daysOfWeek[(this.today.getDay() - 6 + 6) % 7],
-            this.daysOfWeek[(this.today.getDay() - 5 + 6) % 7],
-            this.daysOfWeek[(this.today.getDay() - 4 + 6) % 7],
-            this.daysOfWeek[(this.today.getDay() - 3 + 6) % 7],
-            this.daysOfWeek[(this.today.getDay() - 2 + 6) % 7],
-            this.daysOfWeek[(this.today.getDay() - 1 + 6) % 7],
+            this.daysOfWeek[(this.today.getDay()) % 7],
+            this.daysOfWeek[(this.today.getDay() + 1) % 7],
+            this.daysOfWeek[(this.today.getDay() + 2) % 7],
+            this.daysOfWeek[(this.today.getDay() + 3) % 7],
+            this.daysOfWeek[(this.today.getDay() + 4) % 7],
+            this.daysOfWeek[(this.today.getDay() + 5) % 7],
             this.daysOfWeek[(this.today.getDay() + 6) % 7],
+            this.daysOfWeek[(this.today.getDay() + 7) % 7],
           ],
           datasets: [
             {
               label: "Evolution des 7 derniers jours",
               data: [
-                this.getTotalDay(this.getDayOffset(this.today, 7)), // Jour 1 de la semaine précédente
-                this.getTotalDay(this.getDayOffset(this.today, 6)), // Jour 1 de la semaine précédente
-                this.getTotalDay(this.getDayOffset(this.today, 5)), // Jour 2 de la semaine précédente
-                this.getTotalDay(this.getDayOffset(this.today, 4)), // Jour 3 de la semaine précédente
-                this.getTotalDay(this.getDayOffset(this.today, 3)), // Jour 4 de la semaine précédente
-                this.getTotalDay(this.getDayOffset(this.today, 2)), // Jour 5 de la semaine précédente
-                this.getTotalDay(this.getDayOffset(this.today, 1)), // Jour 6 de la semaine précédente
+                this.getTotalDay(this.getDayOffset(this.today, 7)), 
+                this.getTotalDay(this.getDayOffset(this.today, 6)), 
+                this.getTotalDay(this.getDayOffset(this.today, 5)), 
+                this.getTotalDay(this.getDayOffset(this.today, 4)), 
+                this.getTotalDay(this.getDayOffset(this.today, 3)), 
+                this.getTotalDay(this.getDayOffset(this.today, 2)),
+                this.getTotalDay(this.getDayOffset(this.today, 1)), 
                 this.getTotalDay(this.today),
               ],
               fill: false,
@@ -217,14 +182,28 @@ export default {
       this.selectedOption = option;
       if (this.chartInstance) this.chartInstance.destroy();
       let ctx = this.$refs.myChart.getContext("2d");
+
+
+	  let dateToAdd = new Date(this.today.getFullYear(), this.today.getMonth(), 1)
+	  const labels = [];
+	  const data = [];
+	  while (dateToAdd.getMonth() === this.today.getMonth()) {
+    labels.push(dateToAdd.getDate());
+    data.push(this.getTotalDay(dateToAdd));
+    dateToAdd.setDate(dateToAdd.getDate() + 1);
+
+
+	  }
+
+
       this.chartInstance = new Chart(ctx, {
         type: "line",
         data: {
-          labels: ["Semaine 1", "Semaine 2", "Semaine 3", "Semaine 4"],
-          datasets: [
+          labels: labels,
+		  datasets: [
             {
               label: "Evolution du mois",
-              data: [65, 59, 80, 81],
+              data: data,
               fill: false,
               borderColor: "rgb(75, 192, 192)",
               tension: 0.1,

@@ -26,8 +26,8 @@ export default {
   },
   props: {
     pesee: {
-      type: Array, // Type de la prop
-      required: true, // La prop est obligatoire
+      type: Array,
+      required: true,
     },
 	today: {
 	  type: Date,
@@ -64,7 +64,7 @@ export default {
     return (
       parsedDate1.getFullYear() === parsedDate2.getFullYear() &&
       parsedDate1.getMonth() === parsedDate2.getMonth() &&
-      parsedDate1.getDate() === parsedDate2.getDate()
+      parsedDate1.getDate() === parsedDate2.getDate() 
     );
     },
   },
