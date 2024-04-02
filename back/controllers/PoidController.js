@@ -81,7 +81,7 @@ const createpoid = (req, res) => {
   let date = new Date(
     new Date().getFullYear(),
     new Date().getMonth(),
-    new Date().getDate() + 1
+    new Date().getDate(),
   );
 
   prisma.cantines
