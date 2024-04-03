@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-header">
-    <button class="view-all-button">Voir toutes les écoles</button>
+    <router-link to="/" class="view-all-button">Voir toutes les écoles</router-link>
     <h1>DASHBOARD</h1>
     <div class="selectors">
       <select v-model="selectedSchool" class="school-selector">
@@ -22,26 +22,39 @@ export default {
   data() {
     return {
       schools: [
-        { name: "CHARLES DE GAULLE" },
-        { name: "JEAN DE LA FONTAINE" },
-        { name: "LOUISE MICHEL" },
+        { name: "CHARLES_DE_GAULLE" },
+        { name: "JEAN_DE_LA_FONTAINE" },
+        { name: "LOUISE_MICHEL" },
         { name: "ROCHERS" },
-        { name: "JEAN MONNET" },
-        { name: "PLAINE SUD" },
+        { name: "JEAN_MONNET" },
+        { name: "PLAINE_SUD" },
       ],
-      selectedSchool: "",
-      date: new Date().toISOString().substring(0, 10)
+      date: new Date().toISOString().substring(0, 10),
+      selectedSchool: this.school,
     };
+  },
+  props: {
+    school: {
+      type: String,
+      required: true,
+    },
   },
   watch: {
     date(newVal, oldVal) {
       console.log("La nouvelle date sélectionnée est: ", newVal);
       this.updateDate(newVal);
+    },
+    selectedSchool(newVal, oldVal) {
+      console.log("La nouvelle école sélectionnée est: ", newVal);
+      this.updateSchool(newVal);
     }
   },
   methods: {
     updateDate(newDate) {
       this.$emit("update-date", newDate);
+    },
+    updateSchool(newSchool) {
+      this.$emit("update-school", newSchool);
     }
   }
 };

@@ -19,29 +19,17 @@ export default {
 		DashboardTotal,
 		DashboardGlobalView,
 	},
-	data() {
-		return {
-			pesee: [],
-			ecole: "ecole1",
-		};
-	},
 	props: {
 		date: {
 			type: Date,
 			required: true,
 		},
+		pesee: {
+			type: Array,
+			required: true,
+		},
 	},
-	async created() {
-          try {
-            const response = await fetch(`http://localhost:3000/ecoles/${this.ecole}`)
-			.then((response) => response.json())
-			.then((data) => {
-				this.pesee = data;
-			})
-          } catch (error) {
-            console.error("Une erreur s'est produite : ", error);
-          }
-        },
+
 };
 
 </script>

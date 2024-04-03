@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <Navbar />
-    <DashboardHeader @update-date="updateDate"/>
-    <Dashboard :date="new Date(this.date)"></Dashboard>
+    <DashboardHeader @update-date="updateDate" @update-school="updateSchool" :school="this.ecole"/>
+    <Dashboard :date="new Date(this.date)" :pesee="this.pesee"></Dashboard>
   </div>
 </template>
 
@@ -21,7 +21,22 @@ export default {
   methods: {
     updateDate(newDate) {
       this.date = newDate;
-    }
+    },
+    updateSchool(newSchool) {
+      this.ecole = newSchool;
+      this.Fetch();
+    },
+    async Fetch() {
+			try {
+            const response = await fetch(`http://localhost:3000/ecoles/${this.ecole}`)
+			.then((response) => response.json())
+			.then((data) => {
+				this.pesee = data;
+			})
+          } catch (error) {
+            console.error("Une erreur s'est produite : ", error);
+          }
+		},
   },
   data() {
     return {
@@ -30,6 +45,8 @@ export default {
         new Date().getMonth(),
         new Date().getDate()
       ),
+      ecole: "",
+      pesee: [],
     };
   },
 };
