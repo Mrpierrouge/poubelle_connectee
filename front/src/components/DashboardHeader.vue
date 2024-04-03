@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-header">
-    <router-link to="/" class="view-all-button">Voir toutes les écoles</router-link>
+    <button class="view-all-button">Voir toutes les écoles</button>
     <h1>DASHBOARD</h1>
     <div class="selectors">
       <select v-model="selectedSchool" class="school-selector">
@@ -11,7 +11,7 @@
           {{ school.name }}
         </option>
       </select>
-      <input type="date" v-model="selectedDate" class="date-selector" />
+      <input type="date" v-model="date" class="date" />
     </div>
   </div>
 </template>
@@ -30,8 +30,19 @@ export default {
         { name: "PLAINE SUD" },
       ],
       selectedSchool: "",
-      selectedDate: ""
+      date: new Date().toISOString().substring(0, 10)
     };
+  },
+  watch: {
+    date(newVal, oldVal) {
+      console.log("La nouvelle date sélectionnée est: ", newVal);
+      this.updateDate(newVal);
+    }
+  },
+  methods: {
+    updateDate(newDate) {
+      this.$emit("update-date", newDate);
+    }
   }
 };
 </script>
@@ -45,7 +56,6 @@ export default {
 }
 
 .view-all-button {
-  text-decoration: none;
   background-color: #fff;
   color: #322d29;
   border: none;
@@ -66,7 +76,7 @@ export default {
 }
 
 .school-selector,
-.date-selector {
+.date {
   margin-left: 10px;
   padding: 10px;
   border-radius: 5px;

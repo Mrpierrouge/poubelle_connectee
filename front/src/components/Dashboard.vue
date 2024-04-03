@@ -23,12 +23,13 @@ export default {
 		return {
 			pesee: [],
 			ecole: "ecole1",
-			date: new Date(
-        new Date().getFullYear(),
-        new Date().getMonth(),
-        new Date().getDate() 
-      ),
 		};
+	},
+	props: {
+		date: {
+			type: Date,
+			required: true,
+		},
 	},
 	async created() {
           try {
