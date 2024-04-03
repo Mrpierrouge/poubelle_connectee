@@ -39,7 +39,7 @@
   <div class="dashboard-section">
     <h3>EVOLUTION</h3>
     <div class="evolution">
-      <canvas class="chart" ref="myChart" width="900" height="200"></canvas>
+      <canvas class="chart" ref="myChart"></canvas>
     </div>
   </div>
 </template>
@@ -282,9 +282,9 @@ export default {
   align-items: center;
   border-radius: 15px;
   padding: 0px 15px;
-  max-height: 300px;
   background-color: #fff;
   filter: drop-shadow(1px 2px 3px #b2b2b2);
+  max-height: 500px;
 }
 
 .total-month {
@@ -344,5 +344,9 @@ export default {
     flex-direction: column;
     gap: 20px;
   }
+}
+.chart {
+  width: 100%;
+  height: 100%;
 }
 </style>
