@@ -97,4 +97,28 @@ export default {
   border: none;
   color: black;
 }
+
+@media (max-width: 550px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .view-all-button {
+    order: 2; /* Place le bouton après le titre en mode responsive */
+  }
+
+  h1 {
+    order: 1; /* Place le titre en haut */
+  }
+
+  .selectors {
+    order: 3; /* Garantit que les sélecteurs restent en bas */
+    flex-direction: row;
+  }
+
+  .school-selector, .date {
+    margin-left: 0;
+  }
+  
+}
 </style>

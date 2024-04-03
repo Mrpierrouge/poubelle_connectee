@@ -39,7 +39,7 @@
   <div class="dashboard-section">
     <h3>EVOLUTION</h3>
     <div class="evolution">
-      <canvas class="chart" ref="myChart" width="200" height="200"></canvas>
+      <canvas class="chart" ref="myChart" width="900" height="200"></canvas>
     </div>
   </div>
 </template>
@@ -282,7 +282,6 @@ export default {
   align-items: center;
   border-radius: 15px;
   padding: 0px 15px;
-  max-width: 400px;
   max-height: 300px;
   background-color: #fff;
   filter: drop-shadow(1px 2px 3px #b2b2b2);
@@ -339,5 +338,11 @@ export default {
   width: 20px;
   height: 20px;
   margin-top: 10px;
+}
+@media (max-width: 550px) {
+  .dashboard-stats {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 </style>
