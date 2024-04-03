@@ -11,7 +11,7 @@
           {{ school.name }}
         </option>
       </select>
-      <input type="date" v-model="selectedDate" class="date-selector" />
+      <input type="date" v-model="date" class="date" />
     </div>
   </div>
 </template>
@@ -30,8 +30,13 @@ export default {
         { name: "PLAINE SUD" },
       ],
       selectedSchool: "",
-      selectedDate: ""
+      date: new Date().toISOString().substring(0, 10)
     };
+  },
+  watch: {
+    date(newVal, oldVal) {
+      console.log("La nouvelle date sélectionnée est: ", newVal);
+    }
   }
 };
 </script>
@@ -65,7 +70,7 @@ export default {
 }
 
 .school-selector,
-.date-selector {
+.date {
   margin-left: 10px;
   padding: 10px;
   border-radius: 5px;
