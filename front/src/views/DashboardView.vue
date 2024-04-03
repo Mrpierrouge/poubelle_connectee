@@ -2,7 +2,7 @@
   <div class="container">
     <Navbar />
     <DashboardHeader @update-date="updateDate"/>
-    <Dashboard :date="this.date"></Dashboard>
+    <Dashboard :date="new Date(this.date)"></Dashboard>
   </div>
 </template>
 
