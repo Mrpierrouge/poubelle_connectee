@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-section total-month">
-    <h3>TOTAL DU MOIS: {{ totalMonth }}G</h3>
+    <h3>TOTAL DU JOUR : {{ totalDay }} G</h3>
     <div class="time-selector">
       <div
         class="toggle-button"
@@ -31,10 +31,9 @@
     </div>
     <div class="stat-box">
       <p>M-1 : {{ totalPrecedentMonth }} G</p>
-
     </div>
     <div class="stat-box">
-      <p>TOTAL DU JOUR : {{ totalDay }} G</p>
+      <p>TOTAL DU MOIS: {{ totalMonth }}G</p>
     </div>
   </div>
   <div class="dashboard-section">
@@ -48,12 +47,9 @@
 <script>
 import Chart from "chart.js/auto";
 
-
 export default {
   data() {
     return {
-      stat1: 0,
-      stat2: 0,
       selectedOption: "",
       chartInstance: null,
       daysOfWeek: [
@@ -85,13 +81,16 @@ export default {
       return this.getTotalMonth(this.today);
     },
     totalPrecedentMonth() {
-      return this.getTotalMonth(new Date(this.today.getFullYear(), this.today.getMonth() - 1));
+      return this.getTotalMonth(
+        new Date(this.today.getFullYear(), this.today.getMonth() - 1)
+      );
     },
-    totalPrecedentWeek(){
-      return this.getTotalDay(this.getDayOffset(this.today, 15)) + this.getTotalDay(this.getDayOffset(this.today, 14)) +
-                this.getTotalDay(this.getDayOffset(this.today, 13)) + this.getTotalDay(this.getDayOffset(this.today, 12)) + 
-                this.getTotalDay(this.getDayOffset(this.today, 11)) + this.getTotalDay(this.getDayOffset(this.today, 10)) +
-                this.getTotalDay(this.getDayOffset(this.today, 9)) + this.getTotalDay(this.getDayOffset(this.today, 8));
+    totalPrecedentWeek() {
+      let total = 0;
+      for (let i = 8; i < 16; i++) {
+        total += this.getTotalDay(this.getDayOffset(this.today, i));
+      }
+      return total;
     },
   },
   methods: {
@@ -141,7 +140,7 @@ export default {
         type: "line",
         data: {
           labels: [
-            this.daysOfWeek[(this.today.getDay()) % 7],
+            this.daysOfWeek[this.today.getDay() % 7],
             this.daysOfWeek[(this.today.getDay() + 1) % 7],
             this.daysOfWeek[(this.today.getDay() + 2) % 7],
             this.daysOfWeek[(this.today.getDay() + 3) % 7],
@@ -154,13 +153,13 @@ export default {
             {
               label: "Evolution des 7 derniers jours",
               data: [
-                this.getTotalDay(this.getDayOffset(this.today, 7)), 
-                this.getTotalDay(this.getDayOffset(this.today, 6)), 
-                this.getTotalDay(this.getDayOffset(this.today, 5)), 
-                this.getTotalDay(this.getDayOffset(this.today, 4)), 
-                this.getTotalDay(this.getDayOffset(this.today, 3)), 
+                this.getTotalDay(this.getDayOffset(this.today, 7)),
+                this.getTotalDay(this.getDayOffset(this.today, 6)),
+                this.getTotalDay(this.getDayOffset(this.today, 5)),
+                this.getTotalDay(this.getDayOffset(this.today, 4)),
+                this.getTotalDay(this.getDayOffset(this.today, 3)),
                 this.getTotalDay(this.getDayOffset(this.today, 2)),
-                this.getTotalDay(this.getDayOffset(this.today, 1)), 
+                this.getTotalDay(this.getDayOffset(this.today, 1)),
                 this.getTotalDay(this.today),
               ],
               fill: false,
@@ -183,24 +182,25 @@ export default {
       if (this.chartInstance) this.chartInstance.destroy();
       let ctx = this.$refs.myChart.getContext("2d");
 
+      let dateToAdd = new Date(
+        this.today.getFullYear(),
+        this.today.getMonth(),
+        1
+      );
+      const labels = [];
+      const data = [];
 
-	  let dateToAdd = new Date(this.today.getFullYear(), this.today.getMonth(), 1)
-	  const labels = [];
-	  const data = [];
-	  while (dateToAdd.getMonth() === this.today.getMonth()) {
-    labels.push(dateToAdd.getDate());
-    data.push(this.getTotalDay(dateToAdd));
-    dateToAdd.setDate(dateToAdd.getDate() + 1);
-
-
-	  }
-
+      while (dateToAdd.getMonth() === this.today.getMonth()) {
+        labels.push(dateToAdd.getDate());
+        data.push(this.getTotalDay(dateToAdd));
+        dateToAdd.setDate(dateToAdd.getDate() + 1);
+      }
 
       this.chartInstance = new Chart(ctx, {
         type: "line",
         data: {
           labels: labels,
-		  datasets: [
+          datasets: [
             {
               label: "Evolution du mois",
               data: data,
